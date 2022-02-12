@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+  {% if lang == 'ru' %}
+    {% for meta_tag in meta %}
+      <title>{{ meta_tag.title }}</title>
+      <meta name="description" content="{{ meta_tag.description }}" />
+      <meta name="keywords" content="{{ meta_tag.keywords }}" />
+    {% endfor %}
+    {% for html_tag in head_tags %}
+      {% autoescape off %} {{ html_tag.tag }}{% endautoescape %}
+    {% endfor %}
+  {% else %}
+    {% for meta_tag in meta %}
+      <title>{{ meta_tag.title_uz }}</title>
+      <meta name="description" content="{{ meta_tag.description }}" />
+      <meta name="keywords" content="{{ meta_tag.keywords }}" />
+    {% endfor %}
+    {% for html_tag in head_tags %}
+      {% autoescape off %} {{ html_tag.tag }}{% endautoescape %}
+    {% endfor %}
+  {% endif %}
+{% endblock %}
+{% block styles %}
+  <link rel="stylesheet" href="{% static '/css/style.css' %}" />
+{% endblock %}
+{% block content %}
+{% if lang == 'ru' %}
+  <!-- breadcrumbs -->
+  <div class="container breadcrumbs">
+    <a href="{% url 'home' %}">Главная</a>
+    <a href="#" class="breadcrumbs-link breadcrumbs-active">
+      <span class="breadcrumbs-dot"></span>
+      О компании
+    </a>
+  </div>
+  <!-- end of breadcrumbs -->
+
+  <!-- about -->
+  <div class="container py-5">
+    <div class="space-y-5 about-desc py-5">
+      <div class="space-y-5 lg:flex lg:gap-7 lg:space-y-0">
+        <img
+                src="{% static '/img/about-img.jpg' %}"
+                alt="О компании"
+                class="
+                  rounded-xl
+                  block
+                  w-full
+                  select-none
+                  mx-auto
+                  lg:w-[600px] lg:m-0
+                  object-cover object-center
+                  lg:flex-shrink
+                "
+        />
+        <div class="space-y-5">
+          <h1>устойчивое развитие</h1>
+          <p>
+            Компания ESB ответственно подходит к своей работе и
+            придерживается принципа устойчивого развития.
+          </p>
+          <p>
+            Мы предлагаем продукты и решения, которые помогают нашим
+            клиентам сберегать природные ресурсы и снижать негативное
+            воздействие на климат.
+          </p>
+          <p>
+            Мы принимаем активное участие в жизни нашего общества. ESB –
+            социально ответственная компания.
+          </p>
+          <h2>открытость и доверие</h2>
+          <p>
+            В компании ESB мы делаем то, что говорим, и говорим о том, что
+            делаем. Мы взаимодействуем открыто и честно внутри компании, с
+            нашими партнерами и с обществом, которое нас окружает. Мы всегда
+            говорим правду.
+          </p>
+          <h2>внимание к людям</h2>
+          <p>
+            Компания ESB – это наши сотрудники. Мы поддерживаем
+            индивидуальность. Каждый в компании ESB увлечен своим делом и
+            имеет потенциал для развития. Каждый может влиять на ситуацию.
+            Каждый должен чувствовать, что его уважают и ценят.
+          </p>
+        </div>
+      </div>
+
+      <h2>партнерство</h2>
+      <p>
+        Компания ESB создает ценность благодаря тесным отношениям с
+        клиентами, поставщиками и другими ключевыми партнерами. Мы –
+        глобальная компания, в основе работы которой лежит принцип
+        локального предпринимательства.
+      </p>
+      <p>Мы считаем, что многообразие способствует инновации и росту</p>
+      <h2>упорство и амбициозность</h2>
+      <p>
+        Мы всегда стремимся быстрее находить наилучшие решения. Мы гордимся
+        высочайшим качеством во всем, что мы делаем. Мы – лидеры, способные
+        изменить будущее.
+      </p>
+    </div>
+  </div>
+  <!-- end of about -->
+{% elif lang == 'uz' %}
+  <!-- breadcrumbs -->
+  <div class="container breadcrumbs">
+    <a href="{% url 'home' 'uz' %}">Bosh sahifa</a>
+    <a href="#" class="breadcrumbs-link breadcrumbs-active">
+      <span class="breadcrumbs-dot"></span>
+      Kompaniyamiz haqida
+    </a>
+  </div>
+  <!-- end of breadcrumbs -->
+
+  <!-- about -->
+  <div class="container py-5">
+    <div class="space-y-5 about-desc py-5">
+      <div class="space-y-5 lg:flex lg:gap-7 lg:space-y-0">
+        <img
+                src="{% static '/img/about-img.jpg' %}"
+                alt="О компании"
+                class="
+                  rounded-xl
+                  block
+                  w-full
+                  select-none
+                  mx-auto
+                  lg:w-[600px] lg:m-0
+                  object-cover object-center
+                  lg:flex-shrink
+                "
+        />
+        <div class="space-y-5">
+          <h2>устойчивое развитие</h2>
+          <p>
+            Компания ESB ответственно подходит к своей работе и
+            придерживается принципа устойчивого развития.
+          </p>
+          <p>
+            Мы предлагаем продукты и решения, которые помогают нашим
+            клиентам сберегать природные ресурсы и снижать негативное
+            воздействие на климат.
+          </p>
+          <p>
+            Мы принимаем активное участие в жизни нашего общества. ESB –
+            социально ответственная компания.
+          </p>
+          <h2>открытость и доверие</h2>
+          <p>
+            В компании ESB мы делаем то, что говорим, и говорим о том, что
+            делаем. Мы взаимодействуем открыто и честно внутри компании, с
+            нашими партнерами и с обществом, которое нас окружает. Мы всегда
+            говорим правду.
+          </p>
+          <h2>внимание к людям</h2>
+          <p>
+            Компания ESB – это наши сотрудники. Мы поддерживаем
+            индивидуальность. Каждый в компании ESB увлечен своим делом и
+            имеет потенциал для развития. Каждый может влиять на ситуацию.
+            Каждый должен чувствовать, что его уважают и ценят.
+          </p>
+        </div>
+      </div>
+
+      <h2>партнерство</h2>
+      <p>
+        Компания ESB создает ценность благодаря тесным отношениям с
+        клиентами, поставщиками и другими ключевыми партнерами. Мы –
+        глобальная компания, в основе работы которой лежит принцип
+        локального предпринимательства.
+      </p>
+      <p>Мы считаем, что многообразие способствует инновации и росту</p>
+      <h2>упорство и амбициозность</h2>
+      <p>
+        Мы всегда стремимся быстрее находить наилучшие решения. Мы гордимся
+        высочайшим качеством во всем, что мы делаем. Мы – лидеры, способные
+        изменить будущее.
+      </p>
+    </div>
+  </div>
+  <!-- end of about -->
+{% endif %}
+{% endblock %}
+{% block scripts %}
+  <script src="{% static '/js/index.js' %}" defer></script>
+{% endblock %}

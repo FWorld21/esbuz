@@ -1,0 +1,469 @@
+{% load static %}
+{% if lang == 'ru' %}
+  <!-- header -->
+  
+  <header class="py-[15px] bg-white fixed top-0 right-0 left-0 z-50">
+    <div class="container flex justify-between items-center gap-5">
+      <div class="select-none">
+        <img
+                src="{% static '/img/icons/burger.svg' %}"
+                alt="Логотип"
+                class="lg:hidden"
+                id="burger-icon"
+        />
+        <img
+                src="{% static '/img/logo-desktop.svg' %}"
+                alt="Логотип"
+                class="hidden lg:block"
+        />
+      </div>
+      <ul class="hidden lg:flex w-full max-w-[540px] justify-between">
+        <li>
+          <a href="{% url 'home' %}" class="flex items-center">
+            <img
+                    src="{% static '/img/icons/home.svg' %}"
+                    alt="Главная"
+                    class="mr-3 select-none"
+            />
+            Главная</a
+          >
+        </li>
+        <li>
+          <a href="{% url 'categories' %}" class="flex items-center">
+            <img
+                    src="{% static '/img/icons/category.svg' %}"
+                    alt="Категории"
+                    class="mr-3 select-none"
+            />
+            Категории</a
+          >
+        </li>
+        <li>
+          <a href="{% url 'contacts' %}" class="flex items-center">
+            <img
+                    src="{% static '/img/icons/contacts.svg' %}"
+                    alt="Контакты"
+                    class="mr-3 select-none"
+            />
+            Контакты</a
+          >
+        </li>
+        <li>
+          <a href="{% url 'about' %}" class="flex items-center">
+            <img
+                    src="{% static '/img/icons/about-company.svg' %}"
+                    alt="О компании"
+                    class="mr-3 select-none"
+            />
+            О компании</a
+          >
+        </li>
+      </ul>
+      <ul
+              class="
+                hidden
+                lg:flex
+                w-full
+                max-w-[50px]
+                justify-between
+                uppercase
+                select-none
+              "
+      >
+          {% if slug %}
+            <li><a href="{% url 'home' %}" class="lang-active">ru</a><li>
+            <li><a href="{% url 'home' 'uz' %}">uz</a><li>
+          {% else %}
+            <li><a href="{% url 'home' %}" class="lang-active">ru</a><li>
+            <li><a href="{% url 'home' 'uz' %}">uz</a><li>
+          {% endif %}
+      </ul>
+      <form
+              action="#"
+              class="relative xl:w-full max-w-[285px] hidden lg:block"
+              method="GET"
+      > {% csrf_token %}
+        <input
+                name="search-ru"
+                type="text"
+                class="
+                  w-full
+                  rounded-xl
+                  pl-3
+                  pr-[50px]
+                  py-[10px]
+                  outline-none
+                  bg-[#F5F5F5]
+                "
+                placeholder="Поиск..."
+        />
+        <button
+                class="
+                  bg-blue-700
+                  p-4
+                  rounded-xl
+                  absolute
+                  top-0
+                  right-0
+                  bottom-0
+                  select-none
+                "
+                type="submit"
+        >
+          <img src="{% static '/img/main/search.svg' %}" alt="Поиск" class="block" />
+        </button>
+        
+      </form>
+      
+        
+      
+      <div class="flex-1 select-none lg:hidden">
+        <a href="{% url 'home' %}">
+          <img src="{% static '/img/logo.svg' %}" alt="Логотип" class="block mx-auto" />
+        </a>
+      </div>
+      <div class="select-none lg:hidden" id="mobile-search">
+        <img src="{% static '/img/icons/search.svg' %}" alt="Поиск" />
+      </div>
+    </div>
+    <div
+            class="
+              hidden
+              lg:hidden
+              bg-black bg-opacity-60
+              absolute
+              top-full
+              right-0
+              left-0
+              h-screen
+            "
+            id="mobile-menu"
+    >
+      <div
+              class="
+                bg-white
+                w-full
+                max-w-[255px]
+                rounded-br-[20px]
+                p-11
+                space-y-16
+              "
+      >
+        <ul class="space-y-10">
+          <li>
+            <a href="{% url 'home' %}" class="flex items-center">
+              <img src="{% static '/img/icons/home.svg' %}" alt="Главная" class="mr-3" />
+              Главная</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'categories' %}" class="flex items-center">
+              <img
+                      src="{% static '/img/icons/category.svg' %}"
+                      alt="Категории"
+                      class="mr-3"
+              />
+              Категории</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'contacts' %}}" class="flex items-center">
+              <img
+                      src="{% static '/img/icons/contacts.svg' %}"
+                      alt="Контакты"
+                      class="mr-3"
+              />
+              Контакты</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'about' %}" class="flex items-center">
+              <img
+                      src="{% static '/img/icons/about-company.svg' %}"
+                      alt="О компании"
+                      class="mr-3"
+              />
+              О компании</a
+            >
+          </li>
+        </ul>
+        <ul class="flex w-full max-w-[60px] justify-between uppercase">
+          {% if slug %}
+            <li><a href="{% url 'home' %}" class="lang-active">ru</a><li>
+            <li><a href="{% url 'home' 'uz' %}">uz</a><li>
+          {% else %}
+            <li><a href="{% url 'home' %}" class="lang-active">ru</a><li>
+            <li><a href="{% url 'home' 'uz' %}">uz</a><li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </header>
+  <!-- end of header -->
+
+  <!-- search -->
+  <div
+          class="
+              hidden
+              fixed
+              w-full
+              h-screen
+              bg-black
+              z-40
+              bg-opacity-60
+              pt-[86px]
+            "
+          id="mobile-search-form"
+  >
+    <div class="container">
+      <form action="#" class="relative" method="GET"> {% csrf_token %}
+        <input
+                name="search-ru"
+                type="text"
+                class="w-full rounded-xl pl-3 pr-[50px] py-[10px] outline-none"
+                placeholder="Поиск..."
+        />
+        <button
+                class="bg-blue-700 p-4 rounded-xl absolute top-0 right-0 bottom-0"
+                type="submit"
+        >
+          <img src="{% static '/img/main/search.svg' %}" alt="Поиск" class="block" />
+        </button>
+      </form>
+    </div>
+  </div>
+  <!-- end of search -->
+{% elif lang == 'uz' %}
+  <!-- header -->
+  <header class="py-[15px] bg-white fixed top-0 right-0 left-0 z-50">
+    <div class="container flex justify-between items-center gap-5">
+      <div class="select-none">
+        <img
+                src="{% static '/img/icons/burger.svg' %}"
+                alt="Логотип"
+                class="lg:hidden"
+                id="burger-icon"
+        />
+        <img
+                src="{% static '/img/logo-desktop.svg' %}"
+                alt="Логотип"
+                class="hidden lg:block"
+        />
+      </div>
+      <ul class="hidden lg:flex w-full max-w-[540px] justify-between">
+        <li>
+          <a href="{% url 'home' 'uz' %}" class="flex items-center">
+            <img
+                    src="{% static '/img/icons/home.svg' %}"
+                    alt="Главная"
+                    class="mr-3 select-none"
+            />
+            Bosh sahifa</a
+          >
+        </li>
+        <li>
+          <a href="{% url 'categories' 'uz' %}" class="flex items-center">
+            <img
+                    src="{% static '/img/icons/category.svg' %}"
+                    alt="Категории"
+                    class="mr-3 select-none"
+            />
+            Mahsulotlar </a
+          >
+        </li>
+        <li>
+          <a href="{% url 'contacts' 'uz' %}" class="flex items-center">
+            <img
+                    src="{% static '/img/icons/contacts.svg' %}"
+                    alt="Контакты"
+                    class="mr-3 select-none"
+            />
+            Kontaktlar</a
+          >
+        </li>
+        <li>
+          <a href="{% url 'about' 'uz' %}" class="flex items-center">
+            <img
+                    src="{% static '/img/icons/about-company.svg' %}"
+                    alt="О компании"
+                    class="mr-3 select-none"
+            />
+            Kompaniyamiz </a
+          >
+        </li>
+      </ul>
+      <ul
+              class="
+                hidden
+                lg:flex
+                w-full
+                max-w-[50px]
+                justify-between
+                uppercase
+                select-none
+              "
+      >
+          {% if slug %}
+            <li><a href="{% url 'home' %}">ru</a></li>
+            <li><a href="{% url 'home' 'uz' %}" class=" lang-active">uz</a></li>
+          {% else %}
+            <li><a href="{% url 'home' %}">ru</a></li>
+            <li><a href="{% url 'home' 'uz' %}" class=" lang-active">uz</a></li>
+          {% endif %}
+      </ul>
+      <form
+              action="#"
+              class="relative xl:w-full max-w-[285px] hidden lg:block"
+              method="GET"
+      > {% csrf_token %}
+        <input
+                name="search-uz"
+                type="text"
+                class="
+                  w-full
+                  rounded-xl
+                  pl-3
+                  pr-[50px]
+                  py-[10px]
+                  outline-none
+                  bg-[#F5F5F5]
+                "
+                placeholder="Qidirish..."
+        />
+        <button
+                class="
+                  bg-blue-700
+                  p-4
+                  rounded-xl
+                  absolute
+                  top-0
+                  right-0
+                  bottom-0
+                  select-none
+                "
+                type="submit"
+        >
+          <img src="{% static '/img/main/search.svg' %}" alt="Поиск" class="block" />
+        </button>
+      </form>
+      <div class="flex-1 select-none lg:hidden">
+        <a href="{% url 'home' 'uz' %}">
+          <img src="{% static '/img/logo.svg' %}" alt="Логотип" class="block mx-auto" />
+        </a>
+      </div>
+      <div class="select-none lg:hidden" id="mobile-search">
+        <img src="{% static '/img/icons/search.svg' %}" alt="Поиск" />
+      </div>
+    </div>
+    <div
+            class="
+              hidden
+              lg:hidden
+              bg-black bg-opacity-60
+              absolute
+              top-full
+              right-0
+              left-0
+              h-screen
+            "
+            id="mobile-menu"
+    >
+      <div
+              class="
+                bg-white
+                w-full
+                max-w-[255px]
+                rounded-br-[20px]
+                p-11
+                space-y-16
+              "
+      >
+        <ul class="space-y-10">
+          <li>
+            <a href="{% url 'home' 'uz' %}" class="flex items-center">
+              <img src="{% static '/img/icons/home.svg' %}" alt="Главная" class="mr-3" />
+              Bosh sahifa</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'categories' 'uz' %}" class="flex items-center">
+              <img
+                      src="{% static '/img/icons/category.svg' %}"
+                      alt="Категории"
+                      class="mr-3"
+              />
+              Mahsulotlar</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'contacts' 'uz' %}" class="flex items-center">
+              <img
+                      src="{% static '/img/icons/contacts.svg' %}"
+                      alt="Контакты"
+                      class="mr-3"
+              />
+              Kontaktlar</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'about' 'uz' %}" class="flex items-center">
+              <img
+                      src="{% static '/img/icons/about-company.svg' %}"
+                      alt="О компании"
+                      class="mr-3"
+              />
+              Kompaniyamiz </a
+            >
+          </li>
+        </ul>
+        <ul class="flex w-full max-w-[60px] justify-between uppercase">
+          {% if slug %}
+            <li><a href="{% url 'home' %}">ru</a></li>
+            <li><a href="{% url 'home' 'uz' %}" class=" lang-active">uz</a></li>
+          {% else %}
+            <li><a href="{% url 'home' %}">ru</a></li>
+            <li><a href="{% url 'home' 'uz' %}" class=" lang-active">uz</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </header>
+  <!-- end of header -->
+
+  <!-- search -->
+  <div
+          class="
+              hidden
+              fixed
+              w-full
+              h-screen
+              bg-black
+              z-40
+              bg-opacity-60
+              pt-[86px]
+            "
+          id="mobile-search-form"
+  >
+    <div class="container">
+      <form action="#" class="relative" method="GET"> {% csrf_token %}
+        <input
+                name="search-uz"
+                type="text"
+                class="w-full rounded-xl pl-3 pr-[50px] py-[10px] outline-none"
+                placeholder="Qidirish..."
+        />
+        <button
+                class="bg-blue-700 p-4 rounded-xl absolute top-0 right-0 bottom-0"
+                type="submit"
+        >
+          <img src="{% static '/img/main/search.svg' %}" alt="Поиск" class="block" />
+        </button>
+      </form>
+    </div>
+  </div>
+  <!-- end of search -->
+  
+  
+  <script src="{% static '/js/index.js' %}" defer></script>
+  
+{% endif %}

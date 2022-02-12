@@ -1,0 +1,134 @@
+{% load static %}
+{% if lang == 'ru' %}
+  <!-- footer -->
+  <footer class="bg-white py-11">
+    <div
+            class="
+              container
+              space-y-5
+              md:space-y-0 md:grid md:grid-cols-4 md:gap-5
+            "
+    >
+      <ul
+              class="
+                space-y-3
+                text-[#5e5e5e]
+                border-b
+                pb-7
+                md:pb-0 md:border-none
+                col-span-2
+                lg:col-span-1
+              "
+      >
+        <li><a href="{% url 'home' %}">Главная</a></li>
+        <li><a href="{% url 'categories' %}">Категории</a></li>
+        <li><a href="{% url 'contacts' %}">Контакты</a></li>
+        <li><a href="{% url 'about' %}">О компании</a></li>
+      </ul>
+      <ul
+              class="
+                space-y-3
+                text-[#5e5e5e]
+                border-b
+                pb-7
+                md:pb-0 md:border-none
+              "
+      >
+
+      </ul>
+      <ul class="space-y-3 text-[#5e5e5e]">
+        <li><a href="{% url 'reviews' %}">Отзывы</a></li>
+        <li><a href="tel:+998983057702">+998 (98) 305-77-02</a></li>
+        <li><a href="tel:+998901350292">+998 (90) 135-02-92</a></li>
+        <li><a href="tel:+998712280097">+998 (71) 228-00-97</a></li>
+      </ul>
+      <ul
+              class="
+                space-y-3
+                text-[#5e5e5e]
+                md:col-span-4 md:border-t md:pt-6
+                lg:col-span-1
+                lg:border-none
+                lg:pt-0
+                lg:mt-auto
+                lg:flex
+                lg:items-end
+                lg:justify-end
+              "
+      >
+        <li>
+          <a href="#" class="block select-none"
+          ><img src="{% static '/img/logo-footer.svg' %}" alt="Логотип" class="ml-auto"
+          /></a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+  <!-- end of footer -->
+{% elif lang == 'uz' %}
+  <!-- footer -->
+  <footer class="bg-white py-11">
+    <div
+            class="
+              container
+              space-y-5
+              md:space-y-0 md:grid md:grid-cols-4 md:gap-5
+            "
+    >
+      <ul
+              class="
+                space-y-3
+                text-[#5e5e5e]
+                border-b
+                pb-7
+                md:pb-0 md:border-none
+                col-span-2
+                lg:col-span-1
+              "
+      >
+        <li><a href="{% url 'home' 'uz' %}">Bosh sahifa</a></li>
+        <li><a href="{% url 'categories' 'uz' %}">Mahsulotlar toifalari</a></li>
+        <li><a href="{% url 'contacts' 'uz' %}">Kontaktlar</a></li>
+        <li><a href="{% url 'about' 'uz' %}">Kompaniyamiz haqida</a></li>
+      </ul>
+      <ul
+              class="
+                space-y-3
+                text-[#5e5e5e]
+                border-b
+                pb-7
+                md:pb-0 md:border-none
+              "
+      >
+
+      </ul>
+      <ul class="space-y-3 text-[#5e5e5e]">
+        <li><a href="{% url 'reviews' 'uz' %}">Mijozlar biz haqimizda</a></li>
+        <li><a href="tel:+998983057702">+998 (98) 305-77-02</a></li>
+        <li><a href="tel:+998901350292">+998 (90) 135-02-92</a></li>
+        <li><a href="tel:+998712280097">+998 (71) 228-00-97</a></li>
+      </ul>
+      <ul
+              class="
+                space-y-3
+                text-[#5e5e5e]
+                md:col-span-4 md:border-t md:pt-6
+                lg:col-span-1
+                lg:border-none
+                lg:pt-0
+                lg:mt-auto
+                lg:flex
+                lg:items-end
+                lg:justify-end
+              "
+      >
+        <li>
+          <a href="#" class="block select-none"
+          ><img src="{% static '/img/logo-footer.svg' %}" alt="Логотип" class="ml-auto"
+          /></a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+  <!-- end of footer -->
+{% endif %}

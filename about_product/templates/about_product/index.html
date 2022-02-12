@@ -1,0 +1,403 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+  {% if lang == 'ru' %}
+    {% for meta_tag in meta %}
+      <title>{{ meta_tag.title }}</title>
+      <meta name="description" content="{{ meta_tag.description }}" />
+      <meta name="keywords" content="{{ meta_tag.keywords }}" />
+    {% endfor %}
+    {% for html_tag in head_tags %}
+      {% autoescape off %} {{ html_tag.tag }}{% endautoescape %}
+    {% endfor %}
+  {% else %}
+    {% for meta_tag in meta %}
+      <title>{{ meta_tag.title_uz }}</title>
+      <meta name="description" content="{{ meta_tag.description }}" />
+      <meta name="keywords" content="{{ meta_tag.keywords }}" />
+    {% endfor %}
+    {% for html_tag in head_tags %}
+      {% autoescape off %} {{ html_tag.tag }}{% endautoescape %}
+    {% endfor %}
+  {% endif %}
+{% endblock %}
+{% block styles %}
+  <link rel="stylesheet" href="{% static '/css/style.css' %}" />
+{% endblock %}
+{% block content %}
+{% if lang == 'ru' %}
+  <!-- modal -->
+  <div
+          id="modal"
+          class="hidden fixed w-full h-screen bg-black z-50 bg-opacity-60"
+  >
+    <div class="container flex flex-col items-center justify-center h-full pos-re">
+      <form
+              action="#"
+              class="
+                z-10
+                w-full
+                max-w-[600px]
+                bg-white
+                rounded-[20px]
+                overflow-hidden
+                space-y-7
+                px-6
+                pb-6
+                pt-10
+                relative
+              "
+      >
+        <h3 class="section-title mb-2">Обратный звонок</h3>
+        <form method="GET"> {% csrf_token %}
+          <input type="text" placeholder="Имя и Фамилия" class="input" name="name"/>
+          <input type="tel" placeholder="Номер телефона" class="input" name="phone"/>
+          <div class="flex justify-end">
+            <button class="main-btn" type="submit">Отправить</button>
+          </div>
+        </form>
+        
+        <div class="close_modal close">
+        <div class="close close_icon">
+          <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clip-path="url(#clip0)">
+              <path
+                      d="M13.3043 11.4304C13.8841 12.0211 13.8841 12.9662 13.3043 13.557C12.7246 14.1477 11.7971 14.1477 11.2174 13.557L6.92754 9.06751L2.52174 13.557C1.94203 14.1477 1.01449 14.1477 0.434783 13.557C-0.144928 12.9662 -0.144928 12.0211 0.434783 11.4304L4.84058 6.94093L0.550725 2.56962C0.202899 2.33333 0.0869565 1.9789 0.0869565 1.50633C0.0869565 1.1519 0.202899 0.797468 0.550725 0.443038C1.13043 -0.147679 2.05797 -0.147679 2.63768 0.443038L7.04348 4.93249L11.4493 0.443038C12.029 -0.147679 12.9565 -0.147679 13.5362 0.443038C13.7681 0.679325 14 1.1519 14 1.50633C14 1.86076 13.8841 2.21519 13.5362 2.56962L8.89855 7.05907L13.3043 11.4304Z"
+                      fill="#353535"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0">
+                <rect width="14" height="14" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        </div>
+            
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- end of modal -->
+
+  {% if success_sent %}
+    {% include 'success_sent.html' %}
+  {% endif %}
+  <div class="container breadcrumbs">
+    <a href="{% url 'home' %}">Главная</a>
+    <a href="{% url 'categories' %}" class="breadcrumbs-link">
+      <span class="breadcrumbs-dot"></span>
+      Категории
+    </a>
+    {% for category in categories %}
+      {% if category_slug == category.slug %}
+        <a href="{{ category.get_url }}" class="breadcrumbs-link">
+          <span class="breadcrumbs-dot"></span>
+          {{ category.title }}
+        </a>
+      {% endif %}
+    {% endfor %}
+    <a href="#" class="breadcrumbs-link breadcrumbs-active">
+      <span class="breadcrumbs-dot"></span>
+      {% for product in products %}
+        {% if product.slug == slug %}
+          {{ product.name }}
+        {% endif %}
+      {% endfor %}
+    </a>
+  </div>
+  <!-- end of breadcrumbs -->
+
+  <!-- product -->
+  {% for product in products %}
+    {% if slug == product.product_slug %}
+      <div class="container py-5">
+        <h1 class="product-title md:hidden">{{ product.name }}</h1>
+        <div class="space-y-5">
+          <div
+                  class="
+                    space-y-5
+                    md:space-y-0 md:grid md:grid-cols-2 md:gap-[30px]
+                    lg:flex
+                  "
+          >
+            <div
+                    class="
+                      w-[285px]
+                      h-[285px]
+                      mx-auto
+                      rounded-[18px]
+                      overflow-hidden
+                      select-none
+                      md:w-[350px] md:h-[350px] md:m-0
+                      lg:w-[420px] lg:h-[420px]
+                    "
+            >
+              <img
+                      src="{{ product.img.url }}"
+                      alt="Название продукта"
+                      class="block w-full h-full object-cover object-center"
+              />
+            </div>
+            <div class="space-y-5 lg:flex-1">
+              <p
+                      class="product-title hidden md:block text-left lg:text-[28px]"
+              >
+                {{ product.name }}
+              </p>
+
+              <p
+                      class="
+                        text-[#999999]
+                        font-medium
+                        text-xl
+                        sm:text-center
+                        md:text-left
+                      "
+              >
+                {{ product.model }}
+              </p>
+              <a
+                      href="#"
+                      id="product-btn"
+                      class="
+                        rounded-xl
+                        bg-[#114FAC]
+                        text-white
+                        px-14
+                        py-3
+                        block
+                        w-full
+                        font-medium
+                        text-lg text-center
+                        select-none
+                        sm:max-w-[300px]
+                        mx-auto
+                        md:m-0
+                      "
+              >Обратный звонок</a
+              >
+            </div>
+          </div>
+          <span
+                  class="
+                    py-2
+                    px-5
+                    bg-white
+                    rounded-xl
+                    inline-block
+                    text-[#5E5E5E] text-sm
+                    select-none
+                  "
+          >Описание</span
+          >
+          <div class="product-description">
+            {% for desc in product_description %}
+              {% if desc.product.product_slug == product.product_slug %}
+                <h3>{{ desc.title }}</h3>
+                <p>
+                  {% autoescape off %} {{ desc.description }}{% endautoescape %}
+                </p>
+              {% endif %}
+            {% endfor %}
+
+          </div>
+        </div>
+      </div>
+      <!-- end of product -->
+    {% endif %}
+  {% endfor %}
+{% elif lang == 'uz' %}
+  <!-- modal -->
+  <div
+          id="modal"
+          class="hidden fixed w-full h-screen bg-black z-50 bg-opacity-60"
+  >
+    <div class="container flex flex-col items-center justify-center h-full">
+      <form
+              action="#"
+              class="
+                w-full
+                max-w-[600px]
+                bg-white
+                rounded-[20px]
+                overflow-hidden
+                space-y-7
+                px-6
+                pb-6
+                pt-10
+                relative
+              "
+      >
+        <h3 class="section-title mb-2"></h3>
+        <form method="GET"> {% csrf_token %}
+          <input type="text" placeholder="Ism va familiya" class="input" name="name"/>
+          <input type="tel" placeholder="Telefon raqami" class="input" name="phone"/>
+          <div class="flex justify-end">
+            <button class="main-btn" type="submit">Yuborish</button>
+          </div>
+        </form>
+        <div id="close" class="absolute right-5 top-0 cursor-pointer">
+          <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clip-path="url(#clip0)">
+              <path
+                      d="M13.3043 11.4304C13.8841 12.0211 13.8841 12.9662 13.3043 13.557C12.7246 14.1477 11.7971 14.1477 11.2174 13.557L6.92754 9.06751L2.52174 13.557C1.94203 14.1477 1.01449 14.1477 0.434783 13.557C-0.144928 12.9662 -0.144928 12.0211 0.434783 11.4304L4.84058 6.94093L0.550725 2.56962C0.202899 2.33333 0.0869565 1.9789 0.0869565 1.50633C0.0869565 1.1519 0.202899 0.797468 0.550725 0.443038C1.13043 -0.147679 2.05797 -0.147679 2.63768 0.443038L7.04348 4.93249L11.4493 0.443038C12.029 -0.147679 12.9565 -0.147679 13.5362 0.443038C13.7681 0.679325 14 1.1519 14 1.50633C14 1.86076 13.8841 2.21519 13.5362 2.56962L8.89855 7.05907L13.3043 11.4304Z"
+                      fill="#353535"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0">
+                <rect width="14" height="14" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- end of modal -->
+
+  {% if success_sent %}
+    {% include 'success_sent.html' %}
+  {% endif %}
+  <div class="container breadcrumbs">
+    <a href="{% url 'home' 'uz' %}">Bosh sahifa</a>
+    <a href="{% url 'categories' 'uz' %}" class="breadcrumbs-link">
+      <span class="breadcrumbs-dot"></span>
+      Mahsulotlar
+    </a>
+    {% for category in categories %}
+      {% if category_slug == category.slug %}
+        <a href="{{ category.get_url_uz }}" class="breadcrumbs-link">
+          <span class="breadcrumbs-dot"></span>
+          {{ category.title_uz }}
+        </a>
+      {% endif %}
+    {% endfor %}
+    <a href="#" class="breadcrumbs-link breadcrumbs-active">
+      <span class="breadcrumbs-dot"></span>
+      {% for product in products %}
+        {% if slug == product.product_slug %}
+          {{ product.name_uz }}
+        {% endif %}
+      {% endfor %}
+    </a>
+  </div>
+  <!-- end of breadcrumbs -->
+
+  <!-- product -->
+  {% for product in products %}
+    {% if product.product_slug == slug %}
+      <div class="container py-5">
+        <h1 class="product-title md:hidden">{{ product.name_uz }}</h1>
+        <div class="space-y-5">
+          <div
+                  class="
+                    space-y-5
+                    md:space-y-0 md:grid md:grid-cols-2 md:gap-[30px]
+                    lg:flex
+                  "
+          >
+            <div
+                    class="
+                      w-[285px]
+                      h-[285px]
+                      mx-auto
+                      rounded-[18px]
+                      overflow-hidden
+                      select-none
+                      md:w-[350px] md:h-[350px] md:m-0
+                      lg:w-[420px] lg:h-[420px]
+                    "
+            >
+              <img
+                      src="{{ product.img.url }}"
+                      alt="Название продукта"
+                      class="block w-full h-full object-cover object-center"
+              />
+            </div>
+            <div class="space-y-5 lg:flex-1">
+              <p
+                      class="product-title hidden md:block text-left lg:text-[28px]"
+              >
+                {{ product.name_uz }}
+              </p>
+
+              <p
+                      class="
+                        text-[#999999]
+                        font-medium
+                        text-xl
+                        sm:text-center
+                        md:text-left
+                      "
+              >
+                {{ product.model }}
+              </p>
+              <a
+                      href="#"
+                      id="product-btn"
+                      class="
+                        rounded-xl
+                        bg-[#114FAC]
+                        text-white
+                        px-14
+                        py-3
+                        block
+                        w-full
+                        font-medium
+                        text-lg text-center
+                        select-none
+                        sm:max-w-[300px]
+                        mx-auto
+                        md:m-0
+                      "
+              >Qayta qo'ng'iroq</a
+              >
+            </div>
+          </div>
+          <span
+                  class="
+                    py-2
+                    px-5
+                    bg-white
+                    rounded-xl
+                    inline-block
+                    text-[#5E5E5E] text-sm
+                    select-none
+                  "
+          >Tavsif</span
+          >
+          <div class="product-description">
+            {% for desc in product_description %}
+              {% if desc.product.product_slug == product.product_slug %}
+                <h3>{{ desc.title_uz }}</h3>
+                <p>
+                  {% autoescape off %} {{ desc.description_uz }}{% endautoescape %}
+                </p>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <!-- end of product -->
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% endblock %}
+{% block scripts %}
+  <script src="{% static '/js/index.js' %}" defer></script>
+  <script src="{% static '/js/product.js' %}" defer></script>
+{% endblock %}

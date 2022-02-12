@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+  {% if lang == 'ru' %}
+    {% for meta_tag in meta %}
+      <title>{{ meta_tag.title }}</title>
+      <meta name="description" content="{{ meta_tag.description }}" />
+      <meta name="keywords" content="{{ meta_tag.keywords }}" />
+    {% endfor %}
+    {% for html_tag in head_tags %}
+      {% autoescape off %} {{ html_tag.tag }}{% endautoescape %}
+    {% endfor %}
+  {% else %}
+    {% for meta_tag in meta %}
+      <title>{{ meta_tag.title_uz }}</title>
+      <meta name="description" content="{{ meta_tag.description }}" />
+      <meta name="keywords" content="{{ meta_tag.keywords }}" />
+    {% endfor %}
+    {% for html_tag in head_tags %}
+      {% autoescape off %} {{ html_tag.tag }}{% endautoescape %}
+    {% endfor %}
+  {% endif %}
+{% endblock %}
+{% block styles %}
+  <link rel="stylesheet" href="{% static '/css/style.css' %}" />
+{% endblock %}
+{% block content %}
+  {% if lang == 'ru' %}
+      <!-- breadcrumbs -->
+      <div class="container breadcrumbs">
+        <a href="{% url 'home' %}">Главная</a>
+        <a href="{% url 'categories' %}" class="breadcrumbs-link">
+          <span class="breadcrumbs-dot"></span>
+          Категории
+        </a>
+        <a href="#" class="breadcrumbs-link breadcrumbs-active">
+          <span class="breadcrumbs-dot"></span>
+          {% for category in categories %}
+          {% if category.slug == slug %}
+            {{ category.title }}
+          {% endif %}
+        {% endfor %}
+        </a>
+      </div>
+      <!-- end of breadcrumbs -->
+
+      <!-- products -->
+      <div class="container py-5">
+        {% for category in categories %}
+          {% if category.slug == slug %}
+            <h1 class="section-title">{{ category.title }}</h1>
+          {% endif %}
+        {% endfor %}
+        <div class="
+            flex flex-col
+            gap-5
+            sm:grid sm:grid-cols-3
+            md:gap-7
+            lg:grid-cols-4
+            xl:grid-cols-5
+          "
+        >
+          {% for product in products %}
+            {% if product.category.slug == slug %}
+              <div
+                class="
+                  categories_card
+                  flex
+                  justify-between
+                  bg-white
+                  rounded-2xl
+                  overflow-hidden
+                  p-2
+                  sm:flex-col sm:max-w-[210px] sm:p-4 sm:w-full
+                  md:mx-auto
+                "
+              >
+                <div
+                  class="
+                    card_img
+                    w-28
+                    border border-[#C4C4C4]
+                    rounded-2xl
+                    overflow-hidden
+                    sm:max-w-[180px] sm:h-[230px] sm:w-full
+                    select-none
+                  "
+                >
+                  <a href="{{ product.get_url }}">
+                    <img
+                      src="{{ product.img.url }}"
+                      alt=""
+                      class="w-full h-full object-cover sm:object-scale-down"
+                    />
+                  </a>
+                </div>
+                <div class="space-y-2 flex-1">
+                  <a href="{{ product.get_url }}">
+                    <h2 class="text-sm text-[#5E5E5E] font-medium sm:text-base">
+                      {{ product.name }}
+                    </h2>
+                  </a>
+                  <a href="{{ product.get_url }}" class="inline-block">
+                    <p class="text-xs font-medium text-[#999999] sm:text-sm">
+                      {{ product.model }}
+                    </p>
+                  </a>
+                </div>
+                  <div class="flex justify-end sm:justify-center">
+                    <a
+                      href="{{ product.get_url }}"
+                      class="
+                        main-btn
+                        py-2
+                        text-xs
+                        px-7
+                        inline-block
+                        sm:w-full sm:text-center sm:text-base
+                      "
+                      >Перейти</a
+                    >
+                  </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+
+        </div>
+      </div>
+      <!-- end of products -->
+    {% elif lang == 'uz' %}
+
+      <!-- breadcrumbs -->
+      <div class="container breadcrumbs">
+        <a href="{% url 'home' %}">Bosh sahifa</a>
+        <a href="{% url 'categories' %}" class="breadcrumbs-link">
+          <span class="breadcrumbs-dot"></span>
+          Mahsulotlar
+        </a>
+        <a href="#" class="breadcrumbs-link breadcrumbs-active">
+          <span class="breadcrumbs-dot"></span>
+          {% for category in categories %}
+          {% if category.slug == slug %}
+            {{ category.title_uz }}
+          {% endif %}
+        {% endfor %}
+        </a>
+      </div>
+      <!-- end of breadcrumbs -->
+
+      <!-- products -->
+      <div class="container py-5">
+        {% for category in categories %}
+          {% if category.slug == slug %}
+            <h2 class="section-title">{{ category.title_uz }}</h2>
+          {% endif %}
+        {% endfor %}
+        <div class="
+            flex flex-col
+            gap-5
+            sm:grid sm:grid-cols-3
+            md:gap-7
+            lg:grid-cols-4
+            xl:grid-cols-5
+          "
+        >
+          {% for product in products %}
+            {% if product.category.slug == slug %}
+              <div
+                class="
+                  categories_card
+                  flex
+                  justify-between
+                  bg-white
+                  rounded-2xl
+                  overflow-hidden
+                  p-2
+                  sm:flex-col sm:max-w-[210px] sm:p-4 sm:w-full
+                  md:mx-auto
+                "
+              >
+                <div
+                  class="
+                    card_img
+                    w-28
+                    border border-[#C4C4C4]
+                    rounded-2xl
+                    overflow-hidden
+                    sm:max-w-[180px] sm:h-[230px] sm:w-full
+                    select-none
+                  "
+                >
+                  <a href="{{ product.get_url_uz }}">
+                    <img
+                      src="{{ product.img.url }}"
+                      alt=""
+                      class="w-full h-full object-cover sm:object-scale-down"
+                    />
+                  </a>
+                </div>
+                <div class="space-y-2 flex-1">
+                  <a href="{{ product.get_url_uz }}">
+                    <h2 class="text-sm text-[#5E5E5E] font-medium sm:text-base">
+                      {{ product.name_uz }}
+                    </h2>
+                  </a>
+                  <a href="{{ product.get_url_uz }}" class="inline-block">
+                    <p class="text-xs font-medium text-[#999999] sm:text-sm">
+                      {{ product.model }}
+                    </p>
+                  </a>
+                </div>
+                  <div class="flex justify-end sm:justify-center">
+                    <a
+                      href="{{ product.get_url_uz }}"
+                      class="
+                        main-btn
+                        py-2
+                        text-xs
+                        px-7
+                        inline-block
+                        sm:w-full sm:text-center sm:text-base
+                      "
+                      >Ko'rish</a
+                    >
+                  </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+
+        </div>
+      </div>
+      <!-- end of products -->
+    {% endif %}
+{% endblock %}
+{% block scripts %}
+  <script src="{% static '/js/index.js' %}" defer></script>
+{% endblock %}

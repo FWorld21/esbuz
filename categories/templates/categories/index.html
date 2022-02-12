@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+  {% if lang == 'ru' %}
+    {% for meta_tag in meta %}
+      <title>{{ meta_tag.title }}</title>
+      <meta name="description" content="{{ meta_tag.description }}" />
+      <meta name="keywords" content="{{ meta_tag.keywords }}" />
+    {% endfor %}
+    {% for html_tag in head_tags %}
+      {% autoescape off %} {{ html_tag.tag }}{% endautoescape %}
+    {% endfor %}
+  {% else %}
+    {% for meta_tag in meta %}
+      <title>{{ meta_tag.title_uz }}</title>
+      <meta name="description" content="{{ meta_tag.description }}" />
+      <meta name="keywords" content="{{ meta_tag.keywords }}" />
+    {% endfor %}
+    {% for html_tag in head_tags %}
+      {% autoescape off %} {{ html_tag.tag }}{% endautoescape %}
+    {% endfor %}
+  {% endif %}
+{% endblock %}
+{% block styles %}
+  <link rel="stylesheet" href="{% static '/css/style.css' %}" />
+  <link rel="stylesheet" href="{% static '/css/swiper-bundle.min.css' %}" />
+{% endblock %}
+{% block content %}
+  {% if lang == 'ru' %}
+  <!-- breadcrumbs -->
+  <div class="container breadcrumbs">
+    <a href="{% url 'home' %}">Главная</a>
+    <a href="{% url 'categories' %}" class="breadcrumbs-link breadcrumbs-active">
+      <span class="breadcrumbs-dot"></span>
+      Категории
+    </a>
+  </div>
+  <!-- end of breadcrumbs -->
+
+  <!-- categories -->
+  <div class="container py-5">
+    <h1 class="section-title">Категории</h1>
+    <div>
+      <div class="
+                grid grid-cols-2
+                md:grid-cols-4
+                gap-6
+                lg:grid-cols-5
+                xl:grid-cols-6
+              ">
+        {% for category in categories %}
+          <a href="{{ category.get_url }}" class="text-center font-medium text-[15px]">
+            <div class="
+                      rounded-[20px]
+                      overflow-hidden
+                      mb-4
+                      select-none
+                      lg:w-[180px] lg:h-[180px]
+                      mx-auto">
+              <img
+                      src="{{ category.img.url }}"
+                      alt=""
+                      class="w-full h-full object-cover"
+              />
+            </div>
+            <h2>{{ category.title }}</h2>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <!-- end of categories -->
+  {% elif lang == 'uz' %}
+    <!-- breadcrumbs -->
+    <div class="container breadcrumbs">
+      <a href="{% url 'home' 'uz' %}">Bosh sahifa</a>
+      <a href="{% url 'categories' 'uz' %}" class="breadcrumbs-link breadcrumbs-active">
+        <span class="breadcrumbs-dot"></span>
+        Mahsulotlar
+      </a>
+    </div>
+    <!-- end of breadcrumbs -->
+
+    <!-- categories -->
+    <div class="container py-5">
+      <h2 class="section-title">Mahsulotlar</h2>
+      <div>
+        <div class="
+                  grid grid-cols-2
+                  md:grid-cols-4
+                  gap-6
+                  lg:grid-cols-5
+                  xl:grid-cols-6
+                ">
+          {% for category in categories %}
+            <a href="{{ category.get_url_uz }}" class="text-center font-medium text-[15px]">
+              <div class="
+                        rounded-[20px]
+                        overflow-hidden
+                        mb-4
+                        select-none
+                        lg:w-[180px] lg:h-[180px]
+                        mx-auto">
+                <img
+                        src="{{ category.img.url }}"
+                        alt=""
+                        class="w-full h-full object-cover"
+                />
+              </div>
+              <h2>{{ category.title_uz }}</h2>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <!-- end of categories -->
+  {% endif %}
+{% endblock %}
+{% block scripts %}
+  <script src="{% static '/js/index.js' %}" defer></script>
+{% endblock %}

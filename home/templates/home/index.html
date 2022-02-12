@@ -1,0 +1,649 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+  {% if lang == 'ru' %}
+    {% for meta_tag in meta %}
+      <title>{{ meta_tag.title }}</title>
+      <meta name="description" content="{{ meta_tag.description }}" />
+      <meta name="keywords" content="{{ meta_tag.keywords }}" />
+    {% endfor %}
+    {% for html_tag in head_tags %}
+      {% autoescape off %} {{ html_tag.tag }}{% endautoescape %}
+    {% endfor %}
+  {% else %}
+    {% for meta_tag in meta %}
+      <title>{{ meta_tag.title_uz }}</title>
+      <meta name="description" content="{{ meta_tag.description }}" />
+      <meta name="keywords" content="{{ meta_tag.keywords }}" />
+    {% endfor %}
+    {% for html_tag in head_tags %}
+      {% autoescape off %} {{ html_tag.tag }}{% endautoescape %}
+    {% endfor %}
+  {% endif %}
+{% endblock %}
+{% block styles %}
+  <link rel="stylesheet" href="{% static '/css/style.css' %}" />
+  <link rel="stylesheet" href="{% static '/css/swiper-bundle.min.css' %}" />
+{% endblock %}
+{% block content %}
+  {% if lang == 'ru' %}
+    <!-- intro -->
+    
+    <div
+            class="
+              home__banner__top
+              mt-[74px]
+            "
+    >
+      <a href="{% url 'categories' %}">
+        <img
+                src="{% static '/img/banner/banner_mobile.jpg' %}"
+                alt="Баннер"
+                class="w-full h-full object-cover object-top md:hidden"
+        />
+        <img
+                src="{% static '/img/banner/banner.jpg' %}"
+                alt="Баннер"
+                class="w-full hidden md:block"
+        />
+      </a>
+    </div>
+    <!-- end of intro -->
+
+    <!-- about -->
+    <div class="container pt-10 pb-5">
+      <h1 class="section-title">Поговорим немного о нас</h1>
+      <div class="lg:flex lg:flex-row-reverse lg:gap-5">
+        <div class="rounded-lg overflow-hidden select-none lg:w-1/2">
+          <img
+                  src="{% static '/img/main/about.jpg' %}"
+                  alt="Поговорим немного о нас"
+                  class="block mx-auto w-full h-full"
+          />
+        </div>
+        <div class="mt-6 space-y-8 font-light text-base text-sm lg:w-1/2">
+          <p>
+            Таким образом консультация с широким активом в значительной
+            степени обуславливает создание позиций, занимаемых участниками в
+            отношении поставленных задач. Повседневная практика показывает,
+            что реализация намеченных плановых заданий представляет собой
+            интересный эксперимент проверки существенных финансовых и
+            административных условий. С другой стороны новая модель
+            организационной деятельности требуют от нас анализа существенных
+            финансовых и административных условий.
+          </p>
+          <p>
+            Разнообразный и богатый опыт реализация намеченных плановых
+            заданий в значительной степени обуславливает создание модели
+            развития. Равным образом укрепление и развитие структуры требуют
+            определения и уточнения модели развития
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- end of about -->
+
+    <!-- trigger -->
+    <div class="container p-5">
+      {% for benefit in benefits|slice:1 %}
+        <div class=" bg-white rounded-3xl p-8 grid grid-cols-2 md:grid-cols-4 gap-9 md:gap-6 text-center text-sm text-[#114FAC]">
+          <div class=" flex items-center flex-col w-20 md:w-full mx-auto space-y-3">
+            <img src="{% static '/img/main/icon1.svg' %}" alt="" class="about_us__icon select-none" />
+            <p>{{ benefit.how_time_service_working }} лет на рынке</p>
+          </div>
+          <div class=" flex items-center flex-col w-20 md:w-[178px] mx-auto space-y-3">
+            <img src="{% static '/img/main/icon2.svg' %}" alt="" class="about_us__icon select-none" />
+            <p>Более {{ benefit.how_many_sold }} насосов продано</p>
+          </div>
+          <div class=" flex items-center flex-col w-20 md:w-full mx-auto space-y-3">
+            <img src="{% static '/img/main/icon3.svg' %}" alt="" class="about_us__icon select-none" />
+            <p>Более {{ benefit.how_many_reviews }} отзывов</p>
+          </div>
+          <div class=" flex items-center flex-col w-20 md:w-full mx-auto space-y-3">
+            <img src="{% static '/img/main/icon4.svg' %}" alt="" class="about_us__icon select-none" />
+            <p>Лучший сервис</p>
+          </div>
+          
+        </div>
+      {% endfor %}
+    </div>
+    <!-- end of trigger -->
+
+    <!-- category -->
+    {% if random_categories != 'no' %}
+      <div class="container py-5">
+        <h2 class="section-title">Популярные категории</h2>
+        <div class="lg:max-w-[820px] lg:mx-auto">
+          <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-7 cursor">
+            {% for rand_category in random_categories %}
+              <a  class="text-center font-medium text-[15px]">
+                <div class="rounded-[20px] overflow-hidden mb-4 select-none">
+                  <img
+                          src="{{ rand_category.img.url }}"
+                          alt=""
+                          class="w-full h-full object-cover"
+                  />
+                </div>
+                <h3>{{ rand_category.title }}</h3>
+              </a>
+            {% endfor %}
+
+          </div>
+          <div class="text-center mt-6 select-none">
+            <a
+                    href="{% url 'categories' %}"
+                    class="rounded-xl bg-[#114FAC] text-white px-7 py-2 inline-block"
+            >Перейти</a
+            >
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    <!-- end of category -->
+
+    <!-- top products -->
+    {% if random_products != 'no' %}
+      <div class="container py-5">
+        <h2 class="section-title">Больше всего покупают</h2>
+        <div class="swiper-top-products overflow-hidden relative">
+          <div class="swiper-wrapper">
+            {% for rand_product in random_products %}
+              <div class="swiper-slide swiper_sm">
+                <div
+                
+                        class="
+                        
+                        categories_card
+                        
+                              bg-white
+                              rounded-2xl
+                              overflow-hidden
+                              sm:flex-col sm:max-w-[210px] sm:p-4 sm:w-full sm:mx-auto
+                              md:mx-auto
+                            "
+                            
+                >
+                  <div
+                          class="
+                                categories_card_img
+                                flex
+                                gap__auto
+                                justify-between
+                                items-center
+                                w-28
+                                border border-[#C4C4C4]
+                                rounded-2xl
+                                overflow-hidden
+                                sm:max-w-[180px] sm:w-full
+                                select-none
+                              "
+                  >
+                    <a href="{{ rand_product.get_url }}">
+                      <img
+                              src="{{ rand_product.img.url }}"
+                              alt=""
+                              class="w-full h-full sm:object-scale-down"
+                      />
+                    </a>
+                  </div>
+                  <div class="space-y-2 flex-1">
+                    <a href="{{ rand_product.get_url }}">
+                      <h3 class="text-sm text-[#5E5E5E] font-medium sm:text-base">
+                        {{ rand_product.name }}
+                      </h3>
+                    </a>
+                    <p class="text-xs font-medium text-[#999999] sm:text-sm">
+                      {{ rand_product.model }}
+                    </p>
+                  </div>
+                    <div class="flex justify-end sm:justify-center">
+                      <a
+                              href="{{ rand_product.get_url }}"
+                              class="
+                                    main-btn
+                                    py-2
+                                    text-xs
+                                    px-7
+                                    inline-block
+                                    sm:w-full sm:text-center sm:text-base
+                                  "
+                      >Перейти</a>
+                    </div>
+                </div>
+              </div>
+            {% endfor %}
+
+          <div
+                  class="
+                    absolute
+                    top-0
+                    bottom-0
+                    -right-1
+                    z-10
+                    bg-gradient-to-l
+                    w-[200px]
+                    from-[#f5f5f5]
+                    rounded-tr-xl rounded-br-xl
+                    select-none
+                    pointer-events-none
+                  "
+            ></div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    <!-- end of top products -->
+    {% if comments %}
+      <!-- review -->
+      <div class="container py-5 space-y-5">
+        <h2 class="section-title">Отзывы клиентов</h2>
+        <div class="swiper-reviews overflow-hidden relative">
+          <div class="swiper-wrapper">
+            {% for comment in comments %}
+              {% if comment.public %}
+                <div class="swiper-slide">
+                  <div
+                          class="
+                            bg-white
+                            flex flex-col
+                            p-6
+                            rounded-[20px]
+                            md:h-[340px] md:w-[495px]
+                            mx-auto
+                          "
+                  >
+                    <div class="flex items-center justify-between mb-4">
+                      <div class="flex items-center">
+                        <div class="mr-3 select-none">
+                          <img src="{% static '/img/avatar.svg' %}" alt="Аватар" />
+                        </div>
+                        <p class="w-full max-w-[100px] text-[#2D2D2D] leading-none">
+                          {{ comment.name }}
+                        </p>
+                      </div>
+        <!--              <div class="select-none">-->
+        <!--                <img src="{% static '/img/star.svg' %}" alt="Рейтинг" />-->
+        <!--              </div>-->
+                    </div>
+                    <div
+                            class="
+                              bg-[#F9F9F9]
+                              p-4
+                              rounded-lg
+                              text-[#5E5E5E]
+                              mt-auto
+                              h-full
+                            "
+                    >
+                      <p>
+                        {{ comment.message }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+
+          </div>
+          <div
+                  class="
+                    hidden
+                    md:block
+                    absolute
+                    top-0
+                    bottom-0
+                    -right-1
+                    z-10
+                    bg-gradient-to-l
+                    w-[200px]
+                    from-[#f5f5f5]
+                    rounded-tr-xl rounded-br-xl
+                    select-none
+                    pointer-events-none
+                  "
+          ></div>
+          <div
+                  class="
+                    hidden
+                    md:block
+                    xl:hidden
+                    absolute
+                    top-0
+                    bottom-0
+                    -left-1
+                    z-10
+                    bg-gradient-to-r
+                    w-[200px]
+                    from-[#f5f5f5]
+                    rounded-tr-xl rounded-br-xl
+                    select-none
+                    pointer-events-none
+                  "
+          ></div>
+        </div>
+        <div class="text-center">
+          <a href="{% url 'reviews' %}" class="main-btn inline-block"
+          >Оставить отзыв</a
+          >
+        </div>
+      </div>
+    {% endif %}
+    <!-- end of review -->
+  {% elif lang == 'uz' %}
+
+
+  <!-- intro -->
+    <div
+            class="
+              home__banner__top
+              mt-[74px]
+            "
+    >
+      <a href="{% url 'categories' %}">
+        <img
+                src="{% static '/img/banner/mobile-banner1.jpg' %}"
+                alt="Баннер"
+                class="w-full h-full object-cover object-top md:hidden"
+        />
+        <img
+                src="{% static '/img/banner/desktop-banner1.jpg' %}"
+                alt="Баннер"
+                class="w-full hidden md:block"
+        />
+      </a>
+    </div>
+    <!-- end of intro -->
+
+    <!-- about -->
+    <div class="container pt-10 pb-5">
+      <h2 class="section-title">Keling, biz haqimizda biroz gaplashaylik</h2>
+      <div class="lg:flex lg:flex-row-reverse lg:gap-5">
+        <div class="rounded-lg overflow-hidden select-none lg:w-1/2">
+          <img
+                  src="{% static '/img/main/about.jpg' %}"
+                  alt="Поговорим немного о нас"
+                  class="block mx-auto w-full h-full"
+          />
+        </div>
+        <div class="mt-6 space-y-8 font-light text-sm lg:w-1/2">
+          <p>
+            Shunday qilib, keng ko'lamli aktivlar bilan maslahatlashuv asosan
+            daraja ishtirokchilar egallagan lavozimlarni yaratishni belgilaydi
+            vazifalarning o'zaro bog'liqligi. Takroriy amaliyot ko'rsatiladi
+            rejalashtirilgan maqsadlarning bajarilishi
+            muhim moliyaviy tekshirishning qiziqarli tajribasi
+            ma'muriy shartlar. Boshqa tomondan, yangi model
+            tashkiliy faoliyat bizdan mavjudlarni tahlil qilishni talab qiladi
+            moliyaviy va ma'muriy sharoitlar.
+          </p>
+          <p>
+            Rejalashtirilgan rejani amalga oshirishning turli xil va boy tajribasi
+            topshiriqlar asosan modellarning yaratilishini belgilaydi
+            rivojlanish. Teng tuzilmalarni mustahkamlash va rivojlantirish talab etiladi.
+            rivojlanish modellarini aniqlash va takomillashtirish
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- end of about -->
+
+    <!-- trigger -->
+    <div class="container p-5">
+      {% for benefit in benefits|slice:1 %}
+        <div
+                class=" bg-white rounded-3xl p-8 grid grid-cols-2 md:grid-cols-4 gap-9 md:gap-6 text-center text-sm text-[#114FAC]"
+        >
+          <div
+                  class="flex items-center flex-col w-20 md:w-full mx-auto space-y-3"
+          >
+            <img src="{% static '/img/main/icon1.svg' %}" alt="" class="about_us__icon select-none" />
+            <p>Bozorda {{ benefit.how_time_service_working }} yillik tajriba</p>
+          </div>
+          <div
+                  class="flex items-center flex-col w-20 md:w-full mx-auto space-y-3"
+          >
+            <img src="{% static '/img/main/icon2.svg' %}" alt="" class="about_us__icon select-none" />
+            <p>{{ benefit.how_many_sold }} dan ortiq sotilgan nasoslar</p>
+          </div>
+          <div
+                  class="flex items-center flex-col w-20 md:w-full mx-auto space-y-3"
+          >
+            <img src="{% static '/img/main/icon3.svg' %}" alt="" class="about_us__icon select-none" />
+            <p>{{ benefit.how_many_reviews }} dan ortiq mijozlarning qoldirilgan fikrlari</p>
+          </div>
+          <div
+                  class="flex items-center flex-col w-20 md:w-full mx-auto space-y-3"
+          >
+            <img src="{% static '/img/main/icon4.svg' %}" alt="" class="about_us__icon select-none" />
+            <p>Qulay servis</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <!-- end of trigger -->
+
+    <!-- category -->
+    {% if random_categories != 'no' %}
+      <div class="container py-5">
+        <h2 class="section-title">Aktual mahsulot toifalari</h2>
+        <div class="lg:max-w-[820px] lg:mx-auto">
+          <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-7">
+            {% for rand_category in random_categories %}
+              <div class="text-center font-medium text-[15px]">
+                <div class="rounded-[20px] overflow-hidden mb-4 select-none">
+                  <img
+                          src="{{ rand_category.img.url }}"
+                          alt=""
+                          class="w-full h-full object-cover"
+                  />
+                </div>
+                <h3>{{ rand_category.title_uz }}</h3>
+              </div>
+            {% endfor %}
+
+          </div>
+          <div class="text-center mt-6 select-none">
+            <a
+                    href="{% url 'categories' 'uz' %}"
+                    class="rounded-xl bg-[#114FAC] text-white px-7 py-2 inline-block"
+            >Hammasini ko'rish</a
+            >
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    <!-- end of category -->
+
+    <!-- top products -->
+    {% if random_products != 'no' %}
+      <div class="container py-5">
+        <h2 class="section-title">Eng ko'p sotib olinadigan mahsulotlar</h2>
+        <div class="swiper-top-products overflow-hidden relative">
+          <div class="swiper-wrapper">
+            {% for rand_product in random_products %}
+              <div class="swiper-slide">
+                <div
+                        class="
+                        
+                        categories_card
+                        
+                              bg-white
+                              rounded-2xl
+                              overflow-hidden
+                              sm:flex-col sm:max-w-[210px] sm:p-4 sm:w-full sm:mx-auto
+                              md:mx-auto
+                            "
+                >
+                  <div
+                          class="
+                                categories_card_img
+                                flex
+                                gap__auto
+                                justify-between
+                                p-2
+                                items-center
+                                w-28
+                                border border-[#C4C4C4]
+                                rounded-2xl
+                                overflow-hidden
+                                sm:max-w-[180px] sm:w-full
+                                select-none
+                              "
+                  >
+                    <a href="{{ rand_product.get_url_uz }}">
+                      <img
+                              src="{{ rand_product.img.url }}"
+                              alt=""
+                              class="w-full h-full object-cover sm:object-scale-down"
+                      />
+                    </a>
+                  </div>
+                  <div class="space-y-2 flex-1">
+                    <a href="{{ rand_product.get_url_uz }}">
+                      <h3 class="text-sm text-[#5E5E5E] font-medium sm:text-base">
+                        {{ rand_product.name_uz }}
+                      </h3>
+                    </a>
+                    <p class="text-xs font-medium text-[#999999] sm:text-sm">
+                      {{ rand_product.model }}
+                    </p>
+                  </div>
+                    <div class="flex justify-end sm:justify-center">
+                      <a
+                              href="{{ rand_product.get_url_uz }}"
+                              class="
+                                    main-btn
+                                    py-2
+                                    text-xs
+                                    px-7
+                                    inline-block
+                                    sm:w-full sm:text-center sm:text-base
+                                  "
+                      >Hammasini ko'rish</a>
+                    </div>
+                </div>
+              </div>
+            {% endfor %}
+
+          <div
+                  class="
+                    absolute
+                    top-0
+                    bottom-0
+                    -right-1
+                    z-10
+                    bg-gradient-to-l
+                    w-[200px]
+                    from-[#f5f5f5]
+                    rounded-tr-xl rounded-br-xl
+                    select-none
+                    pointer-events-none
+                  "
+            ></div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    <!-- end of top products -->
+
+    {% if comments %}
+      <!-- review -->
+      <div class="container py-5 space-y-5">
+        <h2 class="section-title">Mijozlar biz haqimizda</h2>
+        <div class="swiper-reviews overflow-hidden relative">
+          <div class="swiper-wrapper">
+            {% for comment in comments %}
+              {% if comment.public %}
+                <div class="swiper-slide">
+                  <div
+                          class="
+                            bg-white
+                            flex flex-col
+                            p-6
+                            rounded-[20px]
+                            md:h-[340px] md:w-[495px]
+                            mx-auto
+                          "
+                  >
+                    <div class="flex items-center justify-between mb-4">
+                      <div class="flex items-center">
+                        <div class="mr-3 select-none">
+                          <img src="{% static '/img/avatar.svg' %}" alt="Аватар" />
+                        </div>
+                        <p class="w-full max-w-[100px] text-[#2D2D2D] leading-none">
+                          {{ comment.name }}
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                            class="
+                              bg-[#F9F9F9]
+                              p-4
+                              rounded-lg
+                              text-[#5E5E5E]
+                              mt-auto
+                              h-full
+                            "
+                    >
+                      <p>
+                        {{ comment.message }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+
+          </div>
+          <div
+                  class="
+                    hidden
+                    md:block
+                    absolute
+                    top-0
+                    bottom-0
+                    -right-1
+                    z-10
+                    bg-gradient-to-l
+                    w-[200px]
+                    from-[#f5f5f5]
+                    rounded-tr-xl rounded-br-xl
+                    select-none
+                    pointer-events-none
+                  "
+          ></div>
+          <div
+                  class="
+                    hidden
+                    md:block
+                    xl:hidden
+                    absolute
+                    top-0
+                    bottom-0
+                    -left-1
+                    z-10
+                    bg-gradient-to-r
+                    w-[200px]
+                    from-[#f5f5f5]
+                    rounded-tr-xl rounded-br-xl
+                    select-none
+                    pointer-events-none
+                  "
+          ></div>
+        </div>
+        <div class="text-center">
+          <a href="{% url 'reviews' 'uz' %}" class="main-btn inline-block"
+          >Taqriz qoldirish</a
+          >
+        </div>
+      </div>
+    {% endif %}
+    <!-- end of review -->
+  {% endif %}
+{% endblock %}
+{% block scripts %}
+  <script src="{% static '/js/swiper-bundle.min.js' %}" defer></script>
+  <script src="{% static '/js/swiper-products.js' %}" defer></script>
+  <script src="{% static '/js/swiper-reviews.js' %}" defer></script>
+  <script src="{% static '/js/index.js' %}" defer></script>
+{% endblock %}

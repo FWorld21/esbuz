@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+  {% if lang == 'ru' %}
+    {% for meta_tag in meta %}
+      <title>{{ meta_tag.title }}</title>
+      <meta name="description" content="{{ meta_tag.description }}" />
+      <meta name="keywords" content="{{ meta_tag.keywords }}" />
+    {% endfor %}
+    {% for html_tag in head_tags %}
+      {% autoescape off %} {{ html_tag.tag }}{% endautoescape %}
+    {% endfor %}
+  {% else %}
+    {% for meta_tag in meta %}
+      <title>{{ meta_tag.title_uz }}</title>
+      <meta name="description" content="{{ meta_tag.description }}" />
+      <meta name="keywords" content="{{ meta_tag.keywords }}" />
+    {% endfor %}
+    {% for html_tag in head_tags %}
+      {% autoescape off %} {{ html_tag.tag }}{% endautoescape %}
+    {% endfor %}
+  {% endif %}
+{% endblock %}
+{% block styles %}
+  <link rel="stylesheet" href="{% static '/css/style.css' %}" />
+{% endblock %}
+{% block content %}
+  {% if success_sent %}
+    {% include 'success_sent.html' %}
+  {% endif %}
+{% if lang == 'ru' %}
+  <div class="container breadcrumbs">
+    <a href="{% url 'home' %}">Главная</a>
+    <a href="#" class="breadcrumbs-link breadcrumbs-active">
+      <span class="breadcrumbs-dot"></span>
+      Контакты
+    </a>
+  </div>
+
+  <div class="container py-5">
+    <h1 class="section-title">Контакты</h1>
+    <div
+            class="
+        md:grid md:grid-cols-2 md:gap-10
+        lg:grid-cols-3
+        max-w-[1080px]
+        mx-auto
+      "
+    >
+      <div class="space-y-5 text-[#5E5E5E] text-sm lg:text-lg">
+        {% for phone in phones %}
+          <a
+                  href="tel:{{phone}}"
+                  class="flex items-center bg-white rounded-xl shadow-sm">
+            <img
+                    src="{% static '/img/icons/contacts-phone.svg' %}"
+                    alt="Телефонный номер"
+                    class="mr-3 select-none"
+            />
+            {{ phone }}</a>
+        {% endfor %}
+        {% for email in emails %}
+          <a
+                  href="mailto:{{ email }}"
+                  class="flex items-center bg-white rounded-xl shadow-sm"
+          >
+            <img
+                    src="{% static '/img/icons/contacts-email.svg' %}"
+                    alt="Телефонный номер"
+                    class="mr-3 select-none"
+            />
+            {{ email }}</a
+          >
+        {% endfor %}
+        {% for address in addresses %}
+          <a href="#" class="flex items-center bg-white rounded-xl shadow-sm">
+            <img
+                    src="{% static '/img/icons/contacts-location.svg' %}"
+                    alt="Телефонный номер"
+                    class="mr-3 select-none"
+            />
+            {{ address.city }}, {{ address.street }}, {{ address.landmark }}</a
+          >
+        {% endfor %}
+      </div>
+      <div class="py-10 md:py-0 lg:col-span-2">
+        <form
+                class="space-y-5 text-sm lg:text-lg text-[#5E5E5E]"
+                method="GET"
+        > {% csrf_token %}
+          <input type="text" placeholder="Имя и Фамилия" class="input" name="name"/>
+          <input type="tel" placeholder="Номер телефона" class="input" name="phone"/>
+          <textarea
+                  placeholder="Сообщение..."
+                  class="
+              w-full
+              bg-[#E9E9E9]
+              rounded-xl
+              py-3
+              px-5
+              outline-none
+              h-56
+              resize-none
+            "
+                  name="message"
+          ></textarea>
+          <div class="flex justify-end">
+            <button class="main-btn" type="submit">Отправить</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% elif lang == 'uz' %}
+  <div class="container breadcrumbs">
+    <a href="{% url 'home' 'uz' %}">Bosh sahifa</a>
+    <a href="#" class="breadcrumbs-link breadcrumbs-active">
+      <span class="breadcrumbs-dot"></span>
+      kontaktlar
+    </a>
+  </div>
+
+  <div class="container py-5">
+    <h2 class="section-title">Kontaktlar</h2>
+    <div
+            class="
+        md:grid md:grid-cols-2 md:gap-10
+        lg:grid-cols-3
+        max-w-[1080px]
+        mx-auto
+      "
+    >
+      <div class="space-y-5 text-[#5E5E5E] text-sm lg:text-lg">
+        {% for phone in phones %}
+          <a
+                  href="tel:{{phone}}"
+                  class="flex items-center bg-white rounded-xl shadow-sm">
+            <img
+                    src="{% static '/img/icons/contacts-phone.svg' %}"
+                    alt="Телефонный номер"
+                    class="mr-3 select-none"
+            />
+            {{ phone }}</a>
+        {% endfor %}
+        {% for email in emails %}
+          <a
+                  href="mailto:{{ email }}"
+                  class="flex items-center bg-white rounded-xl shadow-sm"
+          >
+            <img
+                    src="{% static '/img/icons/contacts-email.svg' %}"
+                    alt="Телефонный номер"
+                    class="mr-3 select-none"
+            />
+            {{ email }}</a
+          >
+        {% endfor %}
+        {% for address in addresses %}
+          <a href="#" class="flex items-center bg-white rounded-xl shadow-sm">
+            <img
+                    src="{% static '/img/icons/contacts-location.svg' %}"
+                    alt="Телефонный номер"
+                    class="mr-3 select-none"
+            />
+            {{ address.city_uz }}, {{ address.street_uz }}, {{ address.landmark_uz }}</a
+          >
+        {% endfor %}
+      </div>
+      <div class="py-10 md:py-0 lg:col-span-2">
+        <form
+                class="space-y-5 text-sm lg:text-lg text-[#5E5E5E]"
+                method="GET"
+        > {% csrf_token %}
+          <input type="text" placeholder="Ism va familiya" class="input" name="name"/>
+          <input type="tel" placeholder="Telefon raqami" class="input" name="phone"/>
+          <textarea
+                  placeholder="Xabar..."
+                  class="
+              w-full
+              bg-[#E9E9E9]
+              rounded-xl
+              py-3
+              px-5
+              outline-none
+              h-56
+              resize-none
+            "
+                  name="message"
+          ></textarea>
+          <div class="flex justify-end">
+            <button class="main-btn" type="submit">Yuborish</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+  <script src="{% static '/js/index.js' %}" defer></script>
+{% endblock %}
